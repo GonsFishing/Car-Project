@@ -39,7 +39,7 @@ namespace Car_Project.Repository.Repos
 			{
 				IVehicle vehicle = VehicleFactory.CreateVehicle(
 					item.RegistrationNumber,
-					item.Model, 
+					item.Model,
 					item.Brand,
 					(float)item.Weight,
 					item.VehicleType,
@@ -112,16 +112,30 @@ namespace Car_Project.Repository.Repos
 		{
 			var carToUpdate = datacontext.Vehicles.Where(x => x.RegistrationNumber == vehicle.RegistrationNumber).Single();
 			
+			//jag absolut hatar denna lösningen men efter en del googling så har jag inte lyckats komma fram till en bättre lösning.
+			//som fungerar utan att behöva göra om Weight och FirstTimeInTraffic till nullable värden
+			var weight = vehicle.Weight;
+			var dateFirstused = vehicle.FirstTimeInTraffic;
+			
+			if (vehicle.Weight != 0)
+			{
+				weight = vehicle.Weight;
+			}
+
+			if (vehicle.FirstTimeInTraffic != DateTime.MinValue)//the minimum value is also the default value of a DATETIME variable
+			{
+				dateFirstused = vehicle.FirstTimeInTraffic;
+			}
+
 			var updatedVehicle = new Vehicle
 			{
 				RegistrationNumber = vehicle.RegistrationNumber,
 				Model = vehicle.Model ?? carToUpdate.Model,
 				Brand = vehicle.Brand ?? carToUpdate.Brand,
-				Weight = vehicle.Weight,
-				YearlyCost = vehicle.YearlyCost,//hur ska detta göras
-				FirstTimeInTraffic = vehicle.FirstTimeInTraffic
+				Weight = weight,
+				YearlyCost = vehicle.YearlyCost,
+				FirstTimeInTraffic = dateFirstused
 			};
-			
 
 			datacontext.SubmitChanges();
 			return (IVehicle)updatedVehicle;
@@ -131,6 +145,5 @@ namespace Car_Project.Repository.Repos
 		{
 			throw new NotImplementedException();
 		}
-
 	}
 }
