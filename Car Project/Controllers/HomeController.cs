@@ -46,7 +46,6 @@ namespace Car_Project.Controllers
 		public ActionResult Index()
 		{
 			ViewBag.Message = "Your application description page.";
-
 			return View();
 		}
 
@@ -60,7 +59,6 @@ namespace Car_Project.Controllers
 		public ActionResult Contact()
 		{
 			ViewBag.Message = "Your contact page.";
-
 			return View();
 		}
 	}
