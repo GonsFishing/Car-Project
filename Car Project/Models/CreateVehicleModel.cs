@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Car_Project.DTO.Vehicle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,10 +13,8 @@ namespace Car_Project.Models
 		public string Brand { get; set; }
 		public string VehicleType { get; set; }
 		public float Weight { get; set; }
-		public DateTime FirstUse { get; set; }
-		public bool VehicleISInUse { get; set; }
-		public bool ServiceISBooked { get; set; }
-		public List<Service> List { get; set; }
+		public DateTime FirstTimeInTraffic { get; set; }
+		public List<ServiceDTO> ServiceHistory { get; set; }
 		public string YearlyCost { get; set; }
 	}
 }

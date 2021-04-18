@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Car-projectDatabase" Class="VehicleRegistrationDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=car-project.database.windows.net;Initial Catalog=Car-projectDatabase;User ID=Newton;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="Car_Project.Repository.Properties.Settings" SettingsPropertyName="Car_projectDatabaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Service" Member="Services">
+    <Type Name="Service">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CarID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsCompleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Vehicle_Service" Member="Vehicle" ThisKey="CarID" OtherKey="ID" Type="Vehicle" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Vehicle" Member="Vehicles">
+    <Type Name="Vehicle">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RegistrationNumber" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Model" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Brand" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="FirstTimeInTraffic" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="YearlyCost" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VehicleType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Vehicle_Service" Member="Services" ThisKey="ID" OtherKey="CarID" Type="Service" />
+    </Type>
+  </Table>
+</Database>

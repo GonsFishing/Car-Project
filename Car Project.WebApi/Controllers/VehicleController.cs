@@ -1,23 +1,91 @@
 ﻿using Car_Project.Domain.Models.Service;
 using Car_Project.Domain.Models.Vehicle;
 using Car_Project.Repository.Interfaces;
-using Car_Project.DTO;
 using System.Web.Http;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 using RouteAttribute = System.Web.Http.RouteAttribute;
+using Car_Project.DTO.Vehicle;
+using System.Collections.Generic;
 
 namespace Car_Project.WebApi.Controllers
 {
 	public class VehicleController : ApiController
 	{
 		private readonly IVehicleRepository vehicleRepository;
-		private readonly IVehicleService vehicleService;
 
-		public VehicleController(IVehicleRepository vehicleRepository,
-								 IVehicleService vehicleService)
+		public VehicleController(IVehicleRepository vehicleRepository)
 		{
 			this.vehicleRepository = vehicleRepository;
-			this.vehicleService = vehicleService;
+		}
+
+		[HttpGet]
+		[Route("api/GetVehicles")]
+		public IHttpActionResult GetVehicles()
+		{
+			var response = new GetAllVehiclesResponseDTO();
+			foreach (var Vehicle in vehicleRepository.GetAllVehicles())
+			{
+				var vehicleDTO = new VehicleDTO()
+				{
+					RegistrationNumber = Vehicle.RegistrationNumber,
+					Model = Vehicle.Model,
+					Brand = Vehicle.Brand,
+					Weight = Vehicle.Weight,
+					VehicleType = Vehicle.VehicleType,
+					FirstTimeInTraffic = Vehicle.FirstTimeInTraffic,
+					YearlyCost = Vehicle.YearlyCost,
+
+				};
+				if (Vehicle.ServiceHistory != null)
+				{
+					foreach (var service in Vehicle.ServiceHistory)
+					{
+						var serviceDTO = new ServiceDTO
+						{
+							Date = service.Date,
+							Description = service.Description,
+							IsCompleted = service.IsCompleted
+						};
+
+						vehicleDTO.ServiceHistory.Add(serviceDTO);
+					}
+				}
+				response.Vehicles.Add(vehicleDTO);
+			}
+			return Ok(response);
+		}
+
+		[HttpPost]
+		[Route("api/GetVehicle")]
+		public IHttpActionResult GetVehicles(string registraitionNumber)
+		{
+			var vehicle = vehicleRepository.GetByRegistrationNumber(registraitionNumber);
+
+			List<ServiceDTO> serviceHistory = new List<ServiceDTO>();
+			foreach (var service in vehicle.ServiceHistory)
+			{
+				var serviceDTO = new ServiceDTO
+				{
+					Date = service.Date,
+					Description = service.Description,
+					IsCompleted = service.IsCompleted
+				};
+				serviceHistory.Add(serviceDTO);
+			}
+
+			var vehicleDTO = new VehicleDTO()
+			{
+				RegistrationNumber = vehicle.RegistrationNumber,
+				Model = vehicle.Model,
+				Brand = vehicle.Brand,
+				Weight = vehicle.Weight,
+				VehicleType = vehicle.VehicleType,
+				FirstTimeInTraffic = vehicle.FirstTimeInTraffic,
+				YearlyCost = vehicle.YearlyCost,
+				ServiceHistory = serviceHistory
+			};
+
+			return Ok(vehicleDTO);
 		}
 
 		[HttpPost]
@@ -28,13 +96,26 @@ namespace Car_Project.WebApi.Controllers
 				request.RegistrationNumber,
 				request.Model,
 				request.Brand,
-				request.Weight
-				);
+				request.Weight,
+				request.VehicleType);
 
 			vehicleRepository.CreateVehicle(vehicle);
-
 			return Ok();
 		}
 
+		//[HttpPost]
+		//[Route("api/bookService")]
+		////public IHttpActionResult CreateService(CreateServiceRequestDTO request)
+		////{
+		////	IVehicle service = new ServiceDTO(
+		////		request.RegistrationNumber,
+		////		request.Model,
+		////		request.Brand,
+		////		request.Weight,
+		////		request.VehicleType);
+
+		////	vehicleRepository.CreateVehicle(service);
+		////	return Ok();
+		////}
 	}
 }

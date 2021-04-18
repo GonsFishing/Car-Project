@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateVehicleRequestDTO.cs" />
+    <Compile Include="VehicleDTO.cs" />
+    <Compile Include="Vehicle\CreateVehicleRequestDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vehicle\GetAllVehiclesResponseDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">

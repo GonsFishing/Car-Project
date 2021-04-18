@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Car_Project.Domain.Models.Service
 {
-	public interface IVehicleService
+	public interface IVehicleRepairService
 	{
 		DateTime Date { get; }
 		string Description { get; }
+		bool IsCompleted { get; }
 		float GetYearlyTaxCost(IVehicle vehicle);
 	}
 }

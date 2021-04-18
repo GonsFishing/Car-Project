@@ -13,9 +13,11 @@ namespace Car_Project.Domain.Models.Vehicle
 		string Model { get; }
 		string Brand { get; }
 		float Weight { get; }
+		string VehicleType { get; }
 		DateTime FirstTimeInTraffic { get; }
-		IVehicleService BookedService { get; }
-		List<IVehicleService> ServiceHistory { get; }
+		IList<IVehicleRepairService> ServiceHistory { get; }
 		float YearlyCost { get; }
 	}
+
+
 }

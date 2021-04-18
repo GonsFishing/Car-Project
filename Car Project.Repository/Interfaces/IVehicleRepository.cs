@@ -10,13 +10,14 @@ namespace Car_Project.Repository.Interfaces
 {
 	public interface IVehicleRepository
 	{
-		IEnumerable<IVehicle> GetAllCars();
+		IEnumerable<IVehicle> GetAllVehicles();
 		IVehicle GetByRegistrationNumber(string registrationNumber);
 		void CreateVehicle(IVehicle vehicle);
 		IVehicle Update(IVehicle vehicle);
 		void Delete(string registrationNumber);
-		void UpdateService(IVehicleService service);
-		IVehicleService GetServicehistory(string registrationNumber);
+		void DeleteService(string registrationNumber);
+		void UpdateService(IVehicleRepairService service);
+		List<IVehicleRepairService> GetServicehistory(string registrationNumber);
 
 	}
 }

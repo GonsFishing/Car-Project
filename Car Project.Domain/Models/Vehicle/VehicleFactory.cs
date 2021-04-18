@@ -13,16 +13,17 @@ namespace Car_Project.Domain.Models.Vehicle
 			string registrationNumber,
 			string model,
 			string brand,
-			float weight)
+			float weight,
+			string vehicleType)
 		{
 			switch (weight)
 			{
 				case float w when w >= 2500:
-					return new HeavyWeightVehicle(registrationNumber, model, brand, weight);
+					return new HeavyWeightVehicle(registrationNumber, model, brand, weight, vehicleType);
 				case float w when w >= 1800:
-					return new MediumVehicle(registrationNumber, model, brand, weight);
+					return new MediumVehicle(registrationNumber, model, brand, weight, vehicleType);
 				default:
-					return new LightWeightVehicle(registrationNumber, model, brand, weight);
+					return new LightWeightVehicle(registrationNumber, model, brand, weight, vehicleType);
 			}
 		}
 
@@ -31,18 +32,19 @@ namespace Car_Project.Domain.Models.Vehicle
 			string model,
 			string brand,
 			float weight,
+			string vehicleType,
 			DateTime firstTimeInTraffic,
-			IVehicleService bookedService,
-			List<IVehicleService> serviceHistory)
+			List<IVehicleRepairService> serviceHistory)
 		{
 			switch (weight)
 			{
-				case float w when w >= 2500:
-					return new HeavyWeightVehicle(registrationNumber, model, brand, weight, firstTimeInTraffic, bookedService, serviceHistory);
-				case float w when w >= 1800:
-					return new MediumVehicle(registrationNumber, model, brand, weight, firstTimeInTraffic, bookedService, serviceHistory);
+				case float w when w <= 1800:
+					return new HeavyWeightVehicle(registrationNumber, model, brand, weight, vehicleType, firstTimeInTraffic, serviceHistory);
+				case float w when w <= 1200:
+					return new MediumVehicle(registrationNumber, model, brand, weight, vehicleType, firstTimeInTraffic, serviceHistory);
 				default:
-					return new LightWeightVehicle(registrationNumber, model, brand, weight, firstTimeInTraffic, bookedService, serviceHistory);
+					return new LightWeightVehicle(registrationNumber, model, brand, weight, vehicleType, firstTimeInTraffic, serviceHistory);
+				
 			}
 		}
 	}

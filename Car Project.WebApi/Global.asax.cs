@@ -17,6 +17,7 @@ namespace Car_Project.WebApi
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configure(WebApiConfig.SetupSimpleInjector);
             RouteConfig.RegisterRoutes(RouteTable.Routes);            
         }
     }

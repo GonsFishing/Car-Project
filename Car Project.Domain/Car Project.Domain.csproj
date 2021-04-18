@@ -41,8 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Service\IVehicleService.cs" />
-    <Compile Include="Models\Service\VehicleService.cs" />
+    <Compile Include="Models\Service\IVehicleRepairService.cs" />
+    <Compile Include="Models\Service\ServiceFactory.cs" />
+    <Compile Include="Models\Service\VehicleRepairService.cs" />
     <Compile Include="Models\Vehicle\HeavyWeightVehicle.cs" />
     <Compile Include="Models\Vehicle\LightWeightVehicle.cs" />
     <Compile Include="Models\Vehicle\MediumVehicle.cs" />
