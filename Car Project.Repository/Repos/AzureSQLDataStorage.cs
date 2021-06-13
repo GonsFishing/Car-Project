@@ -54,6 +54,12 @@ namespace Car_Project.Repository.Repos
 		{
 			try
 			{
+				//kollar så att registreringsnumret inte redan finns i databasen 
+				if (datacontext.Vehicles.Where(x => x.RegistrationNumber == vehicle.RegistrationNumber).First().RegistrationNumber == vehicle.RegistrationNumber)
+				{
+					throw new Exception($"An instance of the car {vehicle.RegistrationNumber} already exists in the database");
+				}
+
 				EntitySet<Service> services = new EntitySet<Service>();
 				foreach (var item in vehicle.ServiceHistory)
 				{
@@ -87,16 +93,16 @@ namespace Car_Project.Repository.Repos
 
 		public void Delete(string registrationNumber)
 		{
-			var vehicleToDelete = datacontext.Vehicles.Where(x => x.RegistrationNumber == registrationNumber).Single();
+			var vehicleToDelete = datacontext.Vehicles.Where(x => x.RegistrationNumber == registrationNumber).First();
+			DeleteService(registrationNumber);
 			datacontext.Vehicles.DeleteOnSubmit(vehicleToDelete);
 			datacontext.SubmitChanges();
 		}
+
 		public void DeleteService(string registrationNumber)
 		{
-			//IEnumerable<VehicleRepairService> services = datacontext.Services;//.Where(x => x.Vehicle.RegistrationNumber == registrationNumber);
-			var vehicle = datacontext.Vehicles.Where(x => x.RegistrationNumber == registrationNumber).Single();
+			var vehicle = datacontext.Vehicles.Where(x => x.RegistrationNumber == registrationNumber).First();
 			var services = datacontext.Services.Where(x => x.CarID == vehicle.ID);
-
 
 			datacontext.Services.DeleteOnSubmit((Service)services);
 			datacontext.SubmitChanges();
@@ -112,7 +118,7 @@ namespace Car_Project.Repository.Repos
 		{
 			var carToUpdate = datacontext.Vehicles.Where(x => x.RegistrationNumber == vehicle.RegistrationNumber).Single();
 			
-			//jag absolut hatar denna lösningen men efter en del googling så har jag inte lyckats komma fram till en bättre lösning.
+			//jag gillar inte denna lösningen men efter lite googling så har jag inte lyckats komma fram till en bättre lösning.
 			//som fungerar utan att behöva göra om Weight och FirstTimeInTraffic till nullable värden
 			var weight = vehicle.Weight;
 			var dateFirstused = vehicle.FirstTimeInTraffic;
@@ -139,6 +145,28 @@ namespace Car_Project.Repository.Repos
 
 			datacontext.SubmitChanges();
 			return (IVehicle)updatedVehicle;
+		}
+
+		public void CreateService(string registrationNumber, VehicleRepairService service)
+		{
+			try
+			{
+				var vehicle = datacontext.Vehicles.Where(x => x.RegistrationNumber == registrationNumber).Single();
+
+				var ServiceToAdd = new Service
+				{
+					Date = service.Date,
+					Description = service.Description,
+					IsCompleted = service.IsCompleted
+				};
+
+				datacontext.Services.InsertOnSubmit(ServiceToAdd);
+				datacontext.SubmitChanges();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 
 		public void UpdateService(IVehicleRepairService service)

@@ -15,9 +15,9 @@ namespace Car_Project.Repository.Interfaces
 		void CreateVehicle(IVehicle vehicle);
 		IVehicle Update(IVehicle vehicle);
 		void Delete(string registrationNumber);
-		void DeleteService(string registrationNumber);
+		void CreateService(string registrationNumber, VehicleRepairService service);
 		void UpdateService(IVehicleRepairService service);
+		void DeleteService(string registrationNumber);
 		List<IVehicleRepairService> GetServicehistory(string registrationNumber);
-
 	}
 }

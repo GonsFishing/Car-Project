@@ -6,6 +6,7 @@ using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 using RouteAttribute = System.Web.Http.RouteAttribute;
 using Car_Project.DTO.Vehicle;
 using System.Collections.Generic;
+using Car_Project.DTO.Service;
 
 namespace Car_Project.WebApi.Controllers
 {
@@ -19,7 +20,7 @@ namespace Car_Project.WebApi.Controllers
 		}
 
 		[HttpGet]
-		[Route("api/GetVehicles")]
+		[Route("api/getvehicles")]
 		public IHttpActionResult GetVehicles()
 		{
 			var response = new GetAllVehiclesResponseDTO();
@@ -56,7 +57,7 @@ namespace Car_Project.WebApi.Controllers
 		}
 
 		[HttpPost]
-		[Route("api/GetVehicle")]
+		[Route("api/getvehicle")]
 		public IHttpActionResult GetVehicles(string registraitionNumber)
 		{
 			var vehicle = vehicleRepository.GetByRegistrationNumber(registraitionNumber);
@@ -103,19 +104,22 @@ namespace Car_Project.WebApi.Controllers
 			return Ok();
 		}
 
-		//[HttpPost]
-		//[Route("api/bookService")]
-		////public IHttpActionResult CreateService(CreateServiceRequestDTO request)
-		////{
-		////	IVehicle service = new ServiceDTO(
-		////		request.RegistrationNumber,
-		////		request.Model,
-		////		request.Brand,
-		////		request.Weight,
-		////		request.VehicleType);
+		[HttpPost]
+		[Route("api/deletevehicle")]
+		public IHttpActionResult DeleteVehicle(string RegistrationNumber)
+		{
+			vehicleRepository.Delete(RegistrationNumber);
+			return Ok();
+		}
 
-		////	vehicleRepository.CreateVehicle(service);
-		////	return Ok();
-		////}
+
+		[HttpPost]
+		[Route("api/bookService")]
+		public IHttpActionResult CreateService(string registrationNumber, CreateServiceRequestDTO request)
+		{
+			VehicleRepairService service = new VehicleRepairService(request.Date, request.Description, request.IsCompleted);
+			vehicleRepository.CreateService(registrationNumber, service);
+			return Ok();
+		}
 	}
 }

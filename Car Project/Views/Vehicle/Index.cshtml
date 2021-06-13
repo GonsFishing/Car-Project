@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle</h2>
+<li>
+    @Html.ActionLink("Add vehicle", "CreateVehicleView", "Vehicle", new { @class = "elements" }, null)
+</li>
+<li>
+    @Html.ActionLink("Edit vehicle information", "UpdateVehicleView", "Vehicle", new { @class = "elements" }, null)
+</li>
+<li>
+    @Html.ActionLink("Remove vehicle", "DeleteVehicleView", "Vehicle", new { @class = "elements" }, null)
+</li>

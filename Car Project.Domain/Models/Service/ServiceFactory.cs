@@ -8,7 +8,6 @@ namespace Car_Project.Domain.Models.Service
 {
 	class ServiceFactory
 	{
-
 		//public static IVehicleService CreateVehicleService(
 		//	//int id,
 		//	string description,
@@ -16,6 +15,5 @@ namespace Car_Project.Domain.Models.Service
 		//{
 		//	return new VehicleService(description, date);
 		//}
-
 	}
 }
