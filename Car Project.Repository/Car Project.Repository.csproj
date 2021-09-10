@@ -49,7 +49,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Repos\AzureSQLDataStorage.cs" />
+    <Compile Include="Repos\LocalSQLDatabase.cs" />
+    <Compile Include="VehicleRegistration.cs">
+      <DependentUpon>VehicleRegistration.dbml</DependentUpon>
+    </Compile>
     <Compile Include="VehicleRegistration.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

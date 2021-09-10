@@ -22,7 +22,7 @@ namespace Car_Project.Repository
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Car-projectDatabase")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="CarDatabase")]
 	public partial class VehicleRegistrationDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,16 +30,16 @@ namespace Car_Project.Repository
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertService(Service instance);
-    partial void UpdateService(Service instance);
-    partial void DeleteService(Service instance);
     partial void InsertVehicle(Vehicle instance);
     partial void UpdateVehicle(Vehicle instance);
     partial void DeleteVehicle(Vehicle instance);
+    partial void InsertService(Service instance);
+    partial void UpdateService(Service instance);
+    partial void DeleteService(Service instance);
     #endregion
 		
 		public VehicleRegistrationDataContext() : 
-				base(global::Car_Project.Repository.Properties.Settings.Default.Car_projectDatabaseConnectionString, mappingSource)
+				base(global::Car_Project.Repository.Properties.Settings.Default.CarDatabaseConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -68,14 +68,6 @@ namespace Car_Project.Repository
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Service> Services
-		{
-			get
-			{
-				return this.GetTable<Service>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Vehicle> Vehicles
 		{
 			get
@@ -83,203 +75,12 @@ namespace Car_Project.Repository
 				return this.GetTable<Vehicle>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Service")]
-	public partial class Service : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private System.DateTime _Date;
-		
-		private string _Description;
-		
-		private int _CarID;
-		
-		private bool _IsCompleted;
-		
-		private EntityRef<Vehicle> _Vehicle;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnDateChanging(System.DateTime value);
-    partial void OnDateChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnCarIDChanging(int value);
-    partial void OnCarIDChanged();
-    partial void OnIsCompletedChanging(bool value);
-    partial void OnIsCompletedChanged();
-    #endregion
-		
-		public Service()
-		{
-			this._Vehicle = default(EntityRef<Vehicle>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
+		public System.Data.Linq.Table<Service> Services
 		{
 			get
 			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CarID", DbType="Int NOT NULL")]
-		public int CarID
-		{
-			get
-			{
-				return this._CarID;
-			}
-			set
-			{
-				if ((this._CarID != value))
-				{
-					if (this._Vehicle.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCarIDChanging(value);
-					this.SendPropertyChanging();
-					this._CarID = value;
-					this.SendPropertyChanged("CarID");
-					this.OnCarIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCompleted", DbType="Bit NOT NULL")]
-		public bool IsCompleted
-		{
-			get
-			{
-				return this._IsCompleted;
-			}
-			set
-			{
-				if ((this._IsCompleted != value))
-				{
-					this.OnIsCompletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsCompleted = value;
-					this.SendPropertyChanged("IsCompleted");
-					this.OnIsCompletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Service", Storage="_Vehicle", ThisKey="CarID", OtherKey="ID", IsForeignKey=true)]
-		public Vehicle Vehicle
-		{
-			get
-			{
-				return this._Vehicle.Entity;
-			}
-			set
-			{
-				Vehicle previousValue = this._Vehicle.Entity;
-				if (((previousValue != value) 
-							|| (this._Vehicle.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Vehicle.Entity = null;
-						previousValue.Services.Remove(this);
-					}
-					this._Vehicle.Entity = value;
-					if ((value != null))
-					{
-						value.Services.Add(this);
-						this._CarID = value.ID;
-					}
-					else
-					{
-						this._CarID = default(int);
-					}
-					this.SendPropertyChanged("Vehicle");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<Service>();
 			}
 		}
 	}
@@ -290,7 +91,7 @@ namespace Car_Project.Repository
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _ID;
+		private int _Id;
 		
 		private string _RegistrationNumber;
 		
@@ -300,20 +101,22 @@ namespace Car_Project.Repository
 		
 		private double _Weight;
 		
+		private string _VehicleType;
+		
 		private System.DateTime _FirstTimeInTraffic;
 		
 		private double _YearlyCost;
 		
-		private string _VehicleType;
+		private System.Nullable<int> _ServiceHistory;
 		
-		private EntitySet<Service> _Services;
+		private EntityRef<Service> _Service;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
     partial void OnRegistrationNumberChanging(string value);
     partial void OnRegistrationNumberChanged();
     partial void OnModelChanging(string value);
@@ -322,41 +125,43 @@ namespace Car_Project.Repository
     partial void OnBrandChanged();
     partial void OnWeightChanging(double value);
     partial void OnWeightChanged();
+    partial void OnVehicleTypeChanging(string value);
+    partial void OnVehicleTypeChanged();
     partial void OnFirstTimeInTrafficChanging(System.DateTime value);
     partial void OnFirstTimeInTrafficChanged();
     partial void OnYearlyCostChanging(double value);
     partial void OnYearlyCostChanged();
-    partial void OnVehicleTypeChanging(string value);
-    partial void OnVehicleTypeChanged();
+    partial void OnServiceHistoryChanging(System.Nullable<int> value);
+    partial void OnServiceHistoryChanged();
     #endregion
 		
 		public Vehicle()
 		{
-			this._Services = new EntitySet<Service>(new Action<Service>(this.attach_Services), new Action<Service>(this.detach_Services));
+			this._Service = default(EntityRef<Service>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
 		{
 			get
 			{
-				return this._ID;
+				return this._Id;
 			}
 			set
 			{
-				if ((this._ID != value))
+				if ((this._Id != value))
 				{
-					this.OnIDChanging(value);
+					this.OnIdChanging(value);
 					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RegistrationNumber", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RegistrationNumber", DbType="NChar(10) NOT NULL", CanBeNull=false)]
 		public string RegistrationNumber
 		{
 			get
@@ -376,7 +181,7 @@ namespace Car_Project.Repository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model", DbType="NChar(50) NOT NULL", CanBeNull=false)]
 		public string Model
 		{
 			get
@@ -396,7 +201,7 @@ namespace Car_Project.Repository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Brand", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Brand", DbType="NChar(25) NOT NULL", CanBeNull=false)]
 		public string Brand
 		{
 			get
@@ -432,6 +237,26 @@ namespace Car_Project.Repository
 					this._Weight = value;
 					this.SendPropertyChanged("Weight");
 					this.OnWeightChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VehicleType", DbType="NChar(25) NOT NULL", CanBeNull=false)]
+		public string VehicleType
+		{
+			get
+			{
+				return this._VehicleType;
+			}
+			set
+			{
+				if ((this._VehicleType != value))
+				{
+					this.OnVehicleTypeChanging(value);
+					this.SendPropertyChanging();
+					this._VehicleType = value;
+					this.SendPropertyChanged("VehicleType");
+					this.OnVehicleTypeChanged();
 				}
 			}
 		}
@@ -476,36 +301,211 @@ namespace Car_Project.Repository
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VehicleType", DbType="VarChar(50)")]
-		public string VehicleType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceHistory", DbType="Int")]
+		public System.Nullable<int> ServiceHistory
 		{
 			get
 			{
-				return this._VehicleType;
+				return this._ServiceHistory;
 			}
 			set
 			{
-				if ((this._VehicleType != value))
+				if ((this._ServiceHistory != value))
 				{
-					this.OnVehicleTypeChanging(value);
+					if (this._Service.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnServiceHistoryChanging(value);
 					this.SendPropertyChanging();
-					this._VehicleType = value;
-					this.SendPropertyChanged("VehicleType");
-					this.OnVehicleTypeChanged();
+					this._ServiceHistory = value;
+					this.SendPropertyChanged("ServiceHistory");
+					this.OnServiceHistoryChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vehicle_Service", Storage="_Services", ThisKey="ID", OtherKey="CarID")]
-		public EntitySet<Service> Services
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Service_Vehicle", Storage="_Service", ThisKey="ServiceHistory", OtherKey="Id", IsForeignKey=true)]
+		public Service Service
 		{
 			get
 			{
-				return this._Services;
+				return this._Service.Entity;
 			}
 			set
 			{
-				this._Services.Assign(value);
+				Service previousValue = this._Service.Entity;
+				if (((previousValue != value) 
+							|| (this._Service.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Service.Entity = null;
+						previousValue.Vehicles.Remove(this);
+					}
+					this._Service.Entity = value;
+					if ((value != null))
+					{
+						value.Vehicles.Add(this);
+						this._ServiceHistory = value.Id;
+					}
+					else
+					{
+						this._ServiceHistory = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Service");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Service")]
+	public partial class Service : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.DateTime _Date;
+		
+		private string _Description;
+		
+		private bool _IsCompleted;
+		
+		private EntitySet<Vehicle> _Vehicles;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIsCompletedChanging(bool value);
+    partial void OnIsCompletedChanged();
+    #endregion
+		
+		public Service()
+		{
+			this._Vehicles = new EntitySet<Vehicle>(new Action<Vehicle>(this.attach_Vehicles), new Action<Vehicle>(this.detach_Vehicles));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NChar(250) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCompleted", DbType="Bit NOT NULL")]
+		public bool IsCompleted
+		{
+			get
+			{
+				return this._IsCompleted;
+			}
+			set
+			{
+				if ((this._IsCompleted != value))
+				{
+					this.OnIsCompletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsCompleted = value;
+					this.SendPropertyChanged("IsCompleted");
+					this.OnIsCompletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Service_Vehicle", Storage="_Vehicles", ThisKey="Id", OtherKey="ServiceHistory")]
+		public EntitySet<Vehicle> Vehicles
+		{
+			get
+			{
+				return this._Vehicles;
+			}
+			set
+			{
+				this._Vehicles.Assign(value);
 			}
 		}
 		
@@ -529,16 +529,16 @@ namespace Car_Project.Repository
 			}
 		}
 		
-		private void attach_Services(Service entity)
+		private void attach_Vehicles(Vehicle entity)
 		{
 			this.SendPropertyChanging();
-			entity.Vehicle = this;
+			entity.Service = this;
 		}
 		
-		private void detach_Services(Service entity)
+		private void detach_Vehicles(Vehicle entity)
 		{
 			this.SendPropertyChanging();
-			entity.Vehicle = null;
+			entity.Service = null;
 		}
 	}
 }

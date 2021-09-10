@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Car_Project.Repository.Repos
 {
-	public class AzureSQLDataStorage : IVehicleRepository
+	public class LocalSQLDatabase : IVehicleRepository
 	{
 		private readonly VehicleRegistrationDataContext datacontext;
 
-		public AzureSQLDataStorage()
+		public LocalSQLDatabase()
 		{
 			datacontext = new VehicleRegistrationDataContext();
 		}
@@ -22,14 +22,25 @@ namespace Car_Project.Repository.Repos
 		public List<IVehicleRepairService> GetServicehistory(string registrationNumber)
 		{
 			var vehicle = datacontext.Vehicles.Where(x => x.RegistrationNumber == registrationNumber).Single();
-			List<IVehicleRepairService> services = new List<IVehicleRepairService>();
+			var services = datacontext.Services.Where(x => x.Id == vehicle.ServiceHistory);
 
-			foreach (var item in vehicle.Services.ToList())
+			List<IVehicleRepairService> serviceList = new List<IVehicleRepairService>();
+
+			if (vehicle.Service != null)
 			{
-				var service = new VehicleRepairService(item.Date, item.Description, item.IsCompleted);
-				services.Add(service);
+				foreach (var item in services)
+				{
+					var service = new VehicleRepairService(item.Date, item.Description, item.IsCompleted);
+					serviceList.Add(service);
+				}
 			}
-			return services;
+
+			//foreach (var item in vehicle.Services.ToList())
+			//{
+			//	var service = new VehicleRepairService(item.Date, item.Description, item.IsCompleted);
+			//	services.Add(service);
+			//}
+			return serviceList;
 		}
 
 		public IEnumerable<IVehicle> GetAllVehicles()
@@ -80,7 +91,7 @@ namespace Car_Project.Repository.Repos
 					Weight = vehicle.Weight,
 					YearlyCost = vehicle.YearlyCost,
 					FirstTimeInTraffic = DateTime.Now,
-					Services = services
+					ServiceHistory = services
 				};
 				datacontext.Vehicles.InsertOnSubmit(newVehicle);
 				datacontext.SubmitChanges();
@@ -117,12 +128,12 @@ namespace Car_Project.Repository.Repos
 		public IVehicle Update(IVehicle vehicle)
 		{
 			var carToUpdate = datacontext.Vehicles.Where(x => x.RegistrationNumber == vehicle.RegistrationNumber).Single();
-			
+
 			//jag gillar inte denna lösningen men efter lite googling så har jag inte lyckats komma fram till en bättre lösning.
 			//som fungerar utan att behöva göra om Weight och FirstTimeInTraffic till nullable värden
 			var weight = vehicle.Weight;
 			var dateFirstused = vehicle.FirstTimeInTraffic;
-			
+
 			if (vehicle.Weight != 0)
 			{
 				weight = vehicle.Weight;

@@ -13,9 +13,9 @@ namespace Car_Project.Controllers
 {
 	public class VehicleController : Controller
 	{
-		private readonly string createVehicle = "https://localhost:44321/api/createvehicle";
-		private readonly string removeVehicle = "https://localhost:44321/api/deletevehicle";
-		private readonly string updateVehicle = "https://localhost:44321/api/updatevehicle";
+		private readonly string createVehicle = "https://localhost:65267/api/createvehicle";
+		private readonly string removeVehicle = "https://localhost:44324/api/deletevehicle";
+		private readonly string updateVehicle = "https://localhost:44324/api/updatevehicle";
 
 		public ActionResult Index()
 		{
@@ -46,12 +46,11 @@ namespace Car_Project.Controllers
 			string jsonCreateVehicle = JsonConvert.SerializeObject(createVehicleRequest);
 			var httpContent = new StringContent(jsonCreateVehicle, Encoding.UTF8, "application/json");
 
-
 			using (HttpClient client = new HttpClient())
 			{
+				//token
 				var response = client.PostAsync(new Uri(createVehicle), httpContent).Result;
 			}
-
 			return View("Index");
 		}
 
@@ -74,7 +73,6 @@ namespace Car_Project.Controllers
 			{
 				var response = client.PostAsync(new Uri(removeVehicle), httpContent).Result;
 			}
-
 			return View("Index");
 		}
 

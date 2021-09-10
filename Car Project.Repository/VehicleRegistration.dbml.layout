@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.5, 8.5" name="VehicleRegistration">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="VehicleRegistration">
   <DataContextMoniker Name="/VehicleRegistrationDataContext" />
   <nestedChildShapes>
-    <classShape Id="756b196f-1bd5-4614-b5a9-9842c3f051b3" absoluteBounds="7.875, 3.25, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/VehicleRegistrationDataContext/Service" />
-      <nestedChildShapes>
-        <elementListCompartment Id="6846dd57-6665-47c2-b4ba-e3714a675a02" absoluteBounds="7.89, 3.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="6bd61f7a-0b7e-4474-acd0-67d257f68ee7" absoluteBounds="11.25, 3.125, 2, 2.3478011067708335">
+    <classShape Id="343e6274-ba50-4f90-936c-01e3dee5b205" absoluteBounds="3.5, 1, 2, 2.5401025390625005">
       <DataClassMoniker Name="/VehicleRegistrationDataContext/Vehicle" />
       <nestedChildShapes>
-        <elementListCompartment Id="2caa2763-62e4-449b-96a7-9d98b8c4d7e5" absoluteBounds="11.265, 3.585, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="2cb882d1-af46-4ccb-9937-04e520a433c4" absoluteBounds="3.515, 1.46, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(11.25 : 4.13544840494792); (9.875 : 4.13544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/VehicleRegistrationDataContext/Vehicle/Vehicle_Service" />
+    <classShape Id="16cdf9cb-223b-4921-87f6-ed8c9afb4e84" absoluteBounds="0.75, 1.375, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/VehicleRegistrationDataContext/Service" />
+      <nestedChildShapes>
+        <elementListCompartment Id="655d437c-92ac-460d-b85c-3db50601718f" absoluteBounds="0.765, 1.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.16429768880208); (3.5 : 2.16429768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/VehicleRegistrationDataContext/Service/Service_Vehicle" />
       <nodes>
-        <classShapeMoniker Id="6bd61f7a-0b7e-4474-acd0-67d257f68ee7" />
-        <classShapeMoniker Id="756b196f-1bd5-4614-b5a9-9842c3f051b3" />
+        <classShapeMoniker Id="16cdf9cb-223b-4921-87f6-ed8c9afb4e84" />
+        <classShapeMoniker Id="343e6274-ba50-4f90-936c-01e3dee5b205" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

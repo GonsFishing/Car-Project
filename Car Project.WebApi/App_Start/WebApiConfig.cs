@@ -33,7 +33,7 @@ namespace Car_Project.WebApi
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
             // Register your types, for instance using the scoped lifestyle:
-            container.Register<IVehicleRepository, AzureSQLDataStorage>(Lifestyle.Scoped);
+            container.Register<IVehicleRepository, LocalSQLDatabase>(Lifestyle.Scoped);
         
             // This is an extension method from the integration package.
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
